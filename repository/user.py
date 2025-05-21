@@ -4,6 +4,7 @@ from sqlalchemy.orm import Session
 from database.models import User
 from schemas.user import UserSchema
 from service.user_service import UserService
+from exceptions import UserNotFound
 
 
 class UserRepository:
@@ -27,3 +28,12 @@ class UserRepository:
             user_id: int = session.execute(query).scalar()
             session.commit()
         return self.get_user(user_id)
+
+    def login_user(self, username: str, password: str) -> UserSchema:
+        query = select(User).where(User.username == username, User.password == password)
+        with self.db_session as session:
+            user = session.execute(query).scalars().one_or_none()
+        if user:
+            return user
+        if not user:
+            raise UserNotFound
