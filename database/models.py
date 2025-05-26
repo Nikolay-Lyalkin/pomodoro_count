@@ -1,5 +1,5 @@
-from sqlalchemy.orm import Mapped, mapped_column, declarative_base
-
+from sqlalchemy import ForeignKey
+from sqlalchemy.orm import Mapped, declarative_base, mapped_column
 
 Base = declarative_base()
 
@@ -11,6 +11,7 @@ class Task(Base):
     name: Mapped[str]
     pomodoro_count: Mapped[int]
     category_id: Mapped[int]
+    user_id: Mapped[int] = mapped_column(ForeignKey("users.id"), nullable=False)
 
 
 class Category(Base):
@@ -26,4 +27,4 @@ class User(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     password: Mapped[str] = mapped_column(nullable=False)
     username: Mapped[str] = mapped_column(nullable=False)
-    access_token: Mapped[str] = mapped_column(nullable=False)
+    access_token: Mapped[str] = mapped_column(nullable=True)

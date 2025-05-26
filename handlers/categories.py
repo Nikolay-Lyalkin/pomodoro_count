@@ -1,11 +1,12 @@
-from fastapi import APIRouter, Depends
 from typing import Annotated
 
+from fastapi import APIRouter, Depends
+
+from database.database import get_db_session
 from dependecy import get_category_repository
+from fixtures import categories
 from repository.category import CategoryRepository
 from schemas.category import CategorySchema
-from fixtures import categories
-from database.database import get_db_session
 
 router = APIRouter(prefix="/category")
 

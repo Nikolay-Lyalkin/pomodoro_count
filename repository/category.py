@@ -1,5 +1,6 @@
-from sqlalchemy import select, delete, update
+from sqlalchemy import delete, select, update
 from sqlalchemy.orm import Session
+
 from database.models import Category
 from schemas.category import CategorySchema
 

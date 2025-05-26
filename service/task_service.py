@@ -1,3 +1,7 @@
+from sqlalchemy import select
+
+from database.models import Task
+from exceptions import TaskNotFound
 from repository.cache import CacheRepository
 from repository.task import TaskRepository
 from schemas.task import TaskSchema

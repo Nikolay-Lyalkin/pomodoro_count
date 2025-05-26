@@ -2,10 +2,9 @@ from typing import Annotated
 
 from fastapi import APIRouter, Depends
 
+from dependecy import get_user_repository
 from repository.user import UserRepository
 from schemas.user import UserLoginOrCreate, UserSchema
-from dependecy import get_user_repository
-
 
 router = APIRouter(prefix="/user")
 

@@ -2,11 +2,10 @@ from typing import Annotated
 
 from fastapi import APIRouter, Depends, HTTPException
 
-from repository.user import UserRepository
-from schemas.user import UserLoginOrCreate, UserSchema
 from dependecy import get_user_repository
 from exceptions import UserNotFound
-
+from repository.user import UserRepository
+from schemas.user import UserLoginOrCreate, UserSchema
 
 router = APIRouter(prefix="/auth")
 

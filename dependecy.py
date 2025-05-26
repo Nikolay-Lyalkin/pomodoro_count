@@ -1,5 +1,10 @@
+from typing import Annotated
+
+from fastapi import Depends, HTTPException, Security, security
+
 from cache.accessor import get_redis_connection
 from database.database import get_db_session
+from exceptions import TokenExpired
 from repository.cache import CacheRepository
 from repository.category import CategoryRepository
 from repository.task import TaskRepository
@@ -34,3 +39,15 @@ def get_user_repository() -> UserRepository:
 
 def get_user_service() -> UserService:
     return UserService()
+
+
+reusable_oauth2 = security.HTTPBearer()
+
+
+def get_request_user_id(user_service: Annotated[UserService, Depends(get_user_service)],
+                        token: security.http.HTTPAuthorizationCredentials = Security(reusable_oauth2)) -> int:
+    try:
+        user_id = user_service.get_user_id_from_access_token(token.credentials)
+    except TokenExpired as e:
+        raise HTTPException(status_code=401, detail=e.detail)
+    return user_id
